@@ -115,24 +115,19 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
+// Virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 // DOCUMENT Middleware -> runs before or after .save() and .create()
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   // console.log(this);
   next();
 });
-
-//// Embedding users into tours
-// tourSchema.pre('save', async function (next) {
-// tourSchema.pre('save', function (next) {
-//   console.log('Will save document...');
-//   next();
-// });
-
-// tourSchema.post('save', function (doc, next) {
-//   console.log(doc);
-//   next();
-// });
 
 // QUERY Middleware -> runs before .find()
 tourSchema.pre(/^find/, function (next) {
@@ -149,14 +144,10 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-// tourSchema.post(/^find/, function (docs, next) {
-//   next();
-// });
-
 // Agregation Middleware
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  // console.log(this);
+
   next();
 });
 
