@@ -534,10 +534,13 @@ function hmrAcceptRun(bundle, id) {
 },{}],"f2QDv":[function(require,module,exports) {
 var _mapbox = require("./mapbox");
 var _login = require("./login");
+var _updateSettings = require("./updateSettings");
 console.log("Hello from Parcel");
 // DOM Elements
 const mapBox = document.getElementById("map");
-const loginForm = document.querySelector(".form");
+const loginForm = document.querySelector(".form--login");
+const formUserData = document.querySelector(".form-user-data");
+const formUserPassword = document.querySelector(".form-user-password");
 const logOutBtn = document.querySelector(".nav__el--logout");
 // Values
 // Delegation
@@ -552,8 +555,33 @@ if (loginForm) loginForm.addEventListener("submit", (e)=>{
     (0, _login.login)(email, password);
 });
 if (logOutBtn) logOutBtn.addEventListener("click", (0, _login.logout));
+if (formUserData) formUserData.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    (0, _updateSettings.updateSettings)({
+        name,
+        email
+    }, "data");
+});
+if (formUserPassword) formUserPassword.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    document.querySelector(".btn--save-password").textContent = "Updating...";
+    const passwordCurrent = document.getElementById("password-current").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirm = document.getElementById("password-confirm").value;
+    await (0, _updateSettings.updateSettings)({
+        passwordCurrent,
+        password,
+        passwordConfirm
+    }, "password");
+    document.querySelector(".btn--save-password").textContent = "Save password";
+    document.getElementById("password-current").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("password-confirm").value = "";
+});
 
-},{"./mapbox":"3zDlz","./login":"7yHem"}],"3zDlz":[function(require,module,exports) {
+},{"./mapbox":"3zDlz","./login":"7yHem","./updateSettings":"l3cGY"}],"3zDlz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMap", ()=>displayMap);
@@ -637,7 +665,6 @@ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
 const login = async (email, password)=>{
-    console.log(email, password);
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
@@ -663,7 +690,7 @@ const logout = async ()=>{
             method: "GET",
             url: "http://127.0.0.1:3000/api/v1/users/logout"
         });
-        if (res.data.status === "success") location.reload(true);
+        if (res.data.status === "success") location.assign("/");
     } catch (err) {
         (0, _alerts.showAlert)("error", "Error logging out! try again!");
     }
@@ -3845,6 +3872,27 @@ const showAlert = (type, msg)=>{
     window.setTimeout(hideAlert, 5000);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequire11c7")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+const updateSettings = async (data, type)=>{
+    try {
+        const url = type === "password" ? "http://127.0.0.1:3000/api/v1/users/updateMyPassword" : "http://127.0.0.1:3000/api/v1/users/updateMe";
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url,
+            data
+        });
+        if (res.data.status === "success") (0, _alerts.showAlert)("success", `${type.toUpperCase()} updated successfully`);
+    } catch (err) {
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","axios":"jo6P5","./alerts":"6Mcnf"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequire11c7")
 
 //# sourceMappingURL=index.js.map
