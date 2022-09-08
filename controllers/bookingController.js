@@ -14,7 +14,7 @@ exports.createCheckoutSession = catchAsync(async (req, res) => {
   });
   const price = await stripe.prices.create({
     product: `${product.id}`,
-    unit_amount: 497 * 100,
+    unit_amount: tour.price * 100,
     currency: 'usd',
   });
 
