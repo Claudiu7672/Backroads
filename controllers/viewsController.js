@@ -3,7 +3,6 @@ const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const { restart } = require('nodemon');
 
 exports.getOverview = catchAsync(async (req, res) => {
   // 1) Get tour data from collection
