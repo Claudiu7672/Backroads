@@ -28,7 +28,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name', 404));
   }
 
-  // 2) Build the template
   // 3) Render the template using the data from 1
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
@@ -38,7 +37,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
 exports.getLoginForm = (req, res) => {
   res.status(200).render('login', {
-    ttile: 'Log into your account',
+    title: 'Log into your account',
   });
 };
 
