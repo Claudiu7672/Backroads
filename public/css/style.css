@@ -156,13 +156,13 @@ body {
     linear,
     left top,
     right bottom,
-    from(rgba(125, 213, 111, 0.85)),
-    to(rgba(40, 180, 135, 0.85))
+    from(rgba(105, 93, 124, 0.8)),
+    to(rgba(68, 53, 91, 0.8))
   );
   background-image: linear-gradient(
-    to bottom right,
-    rgba(125, 213, 111, 0.85),
-    rgba(40, 180, 135, 0.85)
+    90deg,
+    hsla(272, 78%, 16%, 0.6) 0%,
+    hsla(17, 60%, 52%, 0.6) 100%
   );
 }
 
@@ -376,7 +376,7 @@ body {
     to(#28b487)
   );
   background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
-  opacity: 0.85;
+  opacity: 0;
 }
 
 .heading-box {
@@ -1117,7 +1117,7 @@ body {
     to(#28b487)
   );
   background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
-  opacity: 0.7;
+  opacity: 0;
 }
 .card__picture-img {
   -o-object-fit: cover;

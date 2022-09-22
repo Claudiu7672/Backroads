@@ -27,6 +27,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setup Express to be able to serve .js files from /dist folder when the request is for /tour/dist/file.js
+app.use('/tour', express.static(path.resolve(__dirname, 'public')));
+
 // Set security HTTP headers
 app.use(helmet());
 
